@@ -19,6 +19,11 @@ const phasermsg = () => {
 
 export default defineConfig({
   base: "./",
+  resolve: {
+    alias: {
+      "@": path.resolve(process.cwd(), "./src"),
+    },
+  },
   plugins: [react(), phasermsg()],
   logLevel: "warning",
   build: {
