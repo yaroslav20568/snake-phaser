@@ -4,7 +4,7 @@ import { EventBus } from "@/game/EventBus";
 
 export class GameScene extends Scene {
   constructor() {
-    super("Game");
+    super("GameScene");
   }
 
   create() {

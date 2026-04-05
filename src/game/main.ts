@@ -7,7 +7,7 @@ const config: Types.Core.GameConfig = {
   width: 1920,
   height: 1080,
   parent: "game-container",
-  backgroundColor: "#009B00",
+  backgroundColor: "#005500",
   scene: [StartScene, GameScene, EndScene],
 };
 
