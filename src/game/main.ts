@@ -1,4 +1,5 @@
 import { AUTO, Game, Types } from "phaser";
+
 import { Game as MainGame } from "@/game/scenes/Game";
 
 const config: Types.Core.GameConfig = {
