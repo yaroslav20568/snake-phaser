@@ -9,6 +9,9 @@ const config: Types.Core.GameConfig = {
   parent: "game-container",
   backgroundColor: "#005500",
   scene: [StartScene, GameScene, EndScene],
+  physics: {
+    default: "arcade",
+  },
 };
 
 const StartGame = (parent: string) => {
