@@ -25,6 +25,7 @@ export class StartScene extends Scene {
   get centerX() {
     return this.scale.width / 2;
   }
+
   get centerY() {
     return this.scale.height / 2;
   }
