@@ -1,6 +1,6 @@
 import { Scene, GameObjects, Types } from "phaser";
 
-import { ENameImage } from "@/const";
+import { ENameImage } from "@/game/const";
 
 export class SnakePlayer extends GameObjects.Container {
   private cursors: Types.Input.Keyboard.CursorKeys | undefined;

@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 
-import { assets, ENameImage } from "@/const";
+import { assets, ENameImage } from "@/game/const";
 import { SnakePlayer } from "@/game/entities";
 import { EventBus } from "@/game/EventBus";
 
