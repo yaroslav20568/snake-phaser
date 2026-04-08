@@ -21,6 +21,8 @@ export class GameScene extends Scene {
   create() {
     const { width, height } = this.scale;
 
+    this.apples = this.physics.add.group();
+
     this.spawnApples();
 
     this.snake = new SnakePlayer(this, width / 2, height / 2);
@@ -29,7 +31,7 @@ export class GameScene extends Scene {
       this.snake,
       this.apples,
       (_, apple) => {
-        this.handleCollectApple(apple as Apple);
+        this.collectApple(apple as Apple);
       },
       undefined,
       this,
@@ -39,7 +41,6 @@ export class GameScene extends Scene {
   }
 
   update() {
-    console.log(this.apples?.getLength());
     this.snake?.update();
 
     if (this.snake?.health === -1) {
@@ -47,7 +48,7 @@ export class GameScene extends Scene {
     }
   }
 
-  private handleCollectApple(apple: Apple) {
+  private collectApple(apple: Apple) {
     if (apple.variant === "negative") {
       this.snake?.updateHealth("dec");
     } else {
@@ -55,10 +56,18 @@ export class GameScene extends Scene {
     }
 
     apple.destroy();
+
+    const isNotGreenApples = !this.apples.children.entries.some(
+      (apple) => (apple as Apple).variant === "positive",
+    );
+
+    if (isNotGreenApples) {
+      this.spawnApples();
+    }
   }
 
   private spawnApples() {
-    this.apples = this.physics.add.group();
+		this.apples.clear(true, true);
 
     for (let i = 0; i < 4; i++) {
       const redApple = new Apple(this, "negative");

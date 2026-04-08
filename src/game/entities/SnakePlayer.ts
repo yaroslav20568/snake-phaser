@@ -4,6 +4,7 @@ import { ENameImage } from "@/game/const";
 
 export class SnakePlayer extends GameObjects.Container {
   private cursors: Types.Input.Keyboard.CursorKeys | undefined;
+  private tailContainer: GameObjects.Container;
   private direction: "up" | "down" | "left" | "right" = "right";
   private speed: number = 3;
   health: number = 0;
@@ -13,11 +14,16 @@ export class SnakePlayer extends GameObjects.Container {
 
     this.cursors = scene.input.keyboard?.createCursorKeys();
 
+    const snakeContainer = scene.add.container(0, 0);
     const snakeHead = scene.add.image(0, 0, ENameImage.SNAKE_HEAD);
+
+    this.tailContainer = scene.add.container(0, 0);
+
     snakeHead.setDisplaySize(50, 50);
     snakeHead.setOrigin(0.5);
+    snakeContainer.add([this.tailContainer, snakeHead]);
 
-    this.add(snakeHead);
+    this.add(snakeContainer);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
@@ -42,6 +48,8 @@ export class SnakePlayer extends GameObjects.Container {
     } else if (this.cursors?.right.isDown && this.direction !== "left") {
       this.direction = "right";
     }
+
+    this.updateTailPositions();
   }
 
   private move() {
@@ -64,8 +72,56 @@ export class SnakePlayer extends GameObjects.Container {
   updateHealth(type: "dec" | "inc") {
     if (type === "dec") {
       this.health -= 1;
+      this.speed -= 0.5;
+
+      const last = this.tailContainer.list.at(-1) as GameObjects.Image;
+
+      if (last) {
+        last.destroy();
+      }
     } else {
-      this.health += 1;
+      if (this.health < 3) {
+        this.health += 1;
+        this.speed += 0.5;
+
+        this.addTailSegment();
+      }
     }
+  }
+
+  private addTailSegment() {
+    const lastSegment = this.tailContainer.list.at(-1) as GameObjects.Image;
+
+    const newX = lastSegment ? lastSegment.x - 20 : -30;
+    const newBlob = this.scene.add.image(newX, 0, ENameImage.SNAKE_BLOB);
+
+    newBlob.setDisplaySize(20, 20);
+
+    this.tailContainer.add(newBlob);
+  }
+
+  private updateTailPositions() {
+    const segments = this.tailContainer.list as GameObjects.Image[];
+    const spacing = 15;
+    const baseOffset = 30;
+
+    segments.forEach((segment, index) => {
+      const offset = baseOffset + index * spacing;
+
+      switch (this.direction) {
+        case "up":
+          segment.setPosition(0, offset);
+          break;
+        case "down":
+          segment.setPosition(0, -offset);
+          break;
+        case "left":
+          segment.setPosition(offset, 0);
+          break;
+        case "right":
+          segment.setPosition(-offset, 0);
+          break;
+      }
+    });
   }
 }
