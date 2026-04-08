@@ -50,9 +50,9 @@ export class GameScene extends Scene {
 
   private collectApple(apple: Apple) {
     if (apple.variant === "negative") {
-      this.snake?.updateHealth("dec");
+      this.snake?.updateSnakeData("dec");
     } else {
-      this.snake?.updateHealth("inc");
+      this.snake?.updateSnakeData("inc");
     }
 
     apple.destroy();

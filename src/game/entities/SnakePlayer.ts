@@ -69,7 +69,7 @@ export class SnakePlayer extends GameObjects.Container {
     }
   }
 
-  updateHealth(type: "dec" | "inc") {
+  updateSnakeData(type: "dec" | "inc") {
     if (type === "dec") {
       this.health -= 1;
       this.speed -= 0.5;
@@ -80,9 +80,10 @@ export class SnakePlayer extends GameObjects.Container {
         last.destroy();
       }
     } else {
+      this.speed += 0.5;
+
       if (this.health < 3) {
         this.health += 1;
-        this.speed += 0.5;
 
         this.addTailSegment();
       }
@@ -125,3 +126,4 @@ export class SnakePlayer extends GameObjects.Container {
     });
   }
 }
+
