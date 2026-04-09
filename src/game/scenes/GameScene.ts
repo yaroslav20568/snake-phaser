@@ -7,6 +7,7 @@ import { EventBus } from "@/game/EventBus";
 export class GameScene extends Scene {
   private snake: SnakePlayer | undefined;
   private apples: Phaser.Physics.Arcade.Group;
+  private scoreText: Phaser.GameObjects.Text;
 
   constructor() {
     super("GameScene");
@@ -37,6 +38,8 @@ export class GameScene extends Scene {
       this,
     );
 
+    this.renderTopBar();
+
     EventBus.emit("current-scene-ready", this);
   }
 
@@ -55,6 +58,10 @@ export class GameScene extends Scene {
       this.snake?.updateSnakeData("inc");
     }
 
+    if (this.scoreText) {
+      this.scoreText.setText(`Score: ${this.snake?.score}`);
+    }
+
     apple.destroy();
 
     const isNotGreenApples = !this.apples.children.entries.some(
@@ -67,7 +74,7 @@ export class GameScene extends Scene {
   }
 
   private spawnApples() {
-		this.apples.clear(true, true);
+    this.apples.clear(true, true);
 
     for (let i = 0; i < 4; i++) {
       const redApple = new Apple(this, "negative");
@@ -76,5 +83,22 @@ export class GameScene extends Scene {
       this.apples.add(redApple);
       this.apples.add(greenApple);
     }
+  }
+
+  private renderTopBar() {
+    const { width } = this.scale;
+    const barHeight = 50;
+
+    const barContainer = this.add.container(0, 0);
+
+    const background = this.add
+      .rectangle(0, 0, width, barHeight, 0x000000, 0.7)
+      .setOrigin(0, 0);
+
+    this.scoreText = this.add.text(10, 12, `Score: ${this.snake?.score}`, {
+      fontSize: "25px",
+    });
+
+    barContainer.add([background, this.scoreText]);
   }
 }

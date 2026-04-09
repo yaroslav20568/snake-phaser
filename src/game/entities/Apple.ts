@@ -42,7 +42,7 @@ export class Apple extends GameObjects.Container {
 
   private static getRandomCoords(scene: Scene) {
     const worldView = scene.cameras.main.worldView;
-    const padding = 200;
+    const padding = 100;
 
     const x = Phaser.Math.Between(
       worldView.left + padding,

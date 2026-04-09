@@ -7,6 +7,7 @@ export class SnakePlayer extends GameObjects.Container {
   private tailContainer: GameObjects.Container;
   private direction: "up" | "down" | "left" | "right" = "right";
   private speed: number = 3;
+  score: number = 0;
   health: number = 0;
 
   constructor(scene: Scene, x: number, y: number) {
@@ -76,11 +77,16 @@ export class SnakePlayer extends GameObjects.Container {
 
       const last = this.tailContainer.list.at(-1) as GameObjects.Image;
 
+      if (this.score > 0) {
+        this.score -= 1;
+      }
+
       if (last) {
         last.destroy();
       }
     } else {
       this.speed += 0.5;
+      this.score += 1;
 
       if (this.health < 3) {
         this.health += 1;
@@ -126,4 +132,3 @@ export class SnakePlayer extends GameObjects.Container {
     });
   }
 }
-
