@@ -1,4 +1,4 @@
-import { Scene } from "phaser";
+import { GameObjects, Scene } from "phaser";
 
 import { assets, ENameImage } from "@/game/const";
 import { SnakePlayer, Apple } from "@/game/entities";
@@ -8,6 +8,7 @@ export class GameScene extends Scene {
   private snake: SnakePlayer | undefined;
   private apples: Phaser.Physics.Arcade.Group;
   private scoreText: Phaser.GameObjects.Text;
+  private healthIndicator: Phaser.GameObjects.Container;
 
   constructor() {
     super("GameScene");
@@ -39,6 +40,7 @@ export class GameScene extends Scene {
     );
 
     this.renderTopBar();
+    this.renderHealthIndicator();
 
     EventBus.emit("current-scene-ready", this);
   }
@@ -54,8 +56,13 @@ export class GameScene extends Scene {
   private collectApple(apple: Apple) {
     if (apple.variant === "negative") {
       this.snake?.updateSnakeData("dec");
+      this.healthIndicator.last?.destroy();
     } else {
       this.snake?.updateSnakeData("inc");
+
+      if (this.healthIndicator.length <= 3) {
+        this.addHealthInIndicator();
+      }
     }
 
     if (this.scoreText) {
@@ -100,5 +107,30 @@ export class GameScene extends Scene {
     });
 
     barContainer.add([background, this.scoreText]);
+  }
+
+  private renderHealthIndicator() {
+    const { width } = this.scale;
+    this.healthIndicator = this.add.container(width - 30, 25);
+
+    const health = this.add
+      .image(0, 0, ENameImage.SNAKE_BLOB)
+      .setDisplaySize(30, 30);
+
+    this.healthIndicator.add(health);
+  }
+
+  private addHealthInIndicator() {
+    const lastHealth = this.healthIndicator.list.at(
+      -1,
+    ) as GameObjects.Container;
+
+    const newX = lastHealth ? lastHealth.x - 30 : -30;
+
+    const health = this.add
+      .image(newX, 0, ENameImage.SNAKE_BLOB)
+      .setDisplaySize(30, 30);
+
+    this.healthIndicator.add(health);
   }
 }
