@@ -7,6 +7,7 @@ import { EventBus } from "@/game/EventBus";
 export class GameScene extends Scene {
   private snake: SnakePlayer | undefined;
   private apples: Phaser.Physics.Arcade.Group;
+  private walls: Phaser.Physics.Arcade.StaticGroup;
   private scoreText: Phaser.GameObjects.Text;
   private healthIndicator: Phaser.GameObjects.Container;
 
@@ -27,6 +28,7 @@ export class GameScene extends Scene {
     this.apples = this.physics.add.group();
 
     this.spawnApples();
+    this.renderWalls();
 
     this.snake = new SnakePlayer(this, width / 2, height / 2);
 
@@ -40,9 +42,18 @@ export class GameScene extends Scene {
       this,
     );
 
+    this.physics.add.overlap(
+      this.snake,
+      this.walls,
+      () => {
+        this.navigateToEndScene();
+      },
+      undefined,
+      this,
+    );
+
     this.renderTopBar();
     this.renderHealthIndicator();
-    this.renderWalls();
 
     EventBus.emit("current-scene-ready", this);
   }
@@ -51,7 +62,7 @@ export class GameScene extends Scene {
     this.snake?.update();
 
     if (this.snake?.health === -1) {
-      this.scene.start("EndScene");
+      this.navigateToEndScene();
     }
   }
 
@@ -124,27 +135,31 @@ export class GameScene extends Scene {
 
   private renderWalls() {
     const { width, height } = this.scale;
-    const walls = this.physics.add.staticGroup();
+    this.walls = this.physics.add.staticGroup();
     const tileSize = 40;
 
     for (let x = tileSize / 2; x < width; x += tileSize) {
-      walls
+      this.walls
         .create(x, tileSize / 2 + 50, ENameImage.WALL_BLOCK)
-        .setDisplaySize(tileSize, tileSize);
+        .setDisplaySize(tileSize, tileSize)
+        .refreshBody();
 
-      walls
+      this.walls
         .create(x, height - tileSize / 2, ENameImage.WALL_BLOCK)
-        .setDisplaySize(tileSize, tileSize);
+        .setDisplaySize(tileSize, tileSize)
+        .refreshBody();
     }
 
     for (let y = tileSize / 2; y < height - 100; y += tileSize) {
-      walls
+      this.walls
         .create(tileSize / 2, y + 86, ENameImage.WALL_BLOCK)
-        .setDisplaySize(tileSize, tileSize);
+        .setDisplaySize(tileSize, tileSize)
+        .refreshBody();
 
-      walls
+      this.walls
         .create(width - tileSize / 2, y + 86, ENameImage.WALL_BLOCK)
-        .setDisplaySize(tileSize, tileSize);
+        .setDisplaySize(tileSize, tileSize)
+        .refreshBody();
     }
   }
 
@@ -160,5 +175,9 @@ export class GameScene extends Scene {
       .setDisplaySize(30, 30);
 
     this.healthIndicator.add(health);
+  }
+
+  private navigateToEndScene() {
+    this.scene.start("EndScene");
   }
 }
