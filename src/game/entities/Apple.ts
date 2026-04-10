@@ -41,18 +41,11 @@ export class Apple extends GameObjects.Container {
   }
 
   private static getRandomCoords(scene: Scene) {
-    const worldView = scene.cameras.main.worldView;
+    const { width, height } = scene.scale;
     const padding = 100;
 
-    const x = Phaser.Math.Between(
-      worldView.left + padding,
-      worldView.right - padding,
-    );
-
-    const y = Phaser.Math.Between(
-      worldView.top + padding,
-      worldView.bottom - padding,
-    );
+    const x = Phaser.Math.Between(padding, width - padding);
+    const y = Phaser.Math.Between(padding, height - padding);
 
     return { x, y };
   }
