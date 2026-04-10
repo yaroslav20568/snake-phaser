@@ -4,8 +4,14 @@ import { EventBus } from "@/game/EventBus";
 import { Button } from "@/ui";
 
 export class EndScene extends Scene {
+  private score: number;
+
   constructor() {
     super("EndScene");
+  }
+
+  init(data: { score: number }) {
+    this.score = data.score;
   }
 
   create() {
@@ -24,13 +30,25 @@ export class EndScene extends Scene {
 
   private createUI() {
     this.add
-      .text(this.centerX, this.centerY - 100, "Конец Игры", {
+      .text(this.centerX, this.centerY - 200, "Конец Игры", {
         fontSize: "70px",
       })
       .setOrigin(0.5);
 
-    new Button(this, this.centerX, this.centerY + 50, "Попробовать Ещё", () => {
-      this.scene.start("GameScene");
-    });
+    this.add
+      .text(this.centerX, this.centerY - 100, `Очки: ${this.score}`, {
+        fontSize: "40px",
+      })
+      .setOrigin(0.5);
+
+    new Button(
+      this,
+      this.centerX,
+      this.centerY + 200,
+      "Попробовать Ещё",
+      () => {
+        this.scene.start("GameScene");
+      },
+    );
   }
 }

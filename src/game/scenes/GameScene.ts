@@ -178,6 +178,6 @@ export class GameScene extends Scene {
   }
 
   private navigateToEndScene() {
-    this.scene.start("EndScene");
+    this.scene.start("EndScene", { score: this.snake?.score });
   }
 }
