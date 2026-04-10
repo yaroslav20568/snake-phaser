@@ -79,7 +79,7 @@ export class GameScene extends Scene {
     }
 
     if (this.scoreText) {
-      this.scoreText.setText(`Score: ${this.snake?.score}`);
+      this.scoreText.setText(`Очки: ${this.snake?.score}`);
     }
 
     apple.destroy();
@@ -115,7 +115,7 @@ export class GameScene extends Scene {
       .rectangle(0, 0, width, barHeight, 0x000000, 0.7)
       .setOrigin(0, 0);
 
-    this.scoreText = this.add.text(10, 12, `Score: ${this.snake?.score}`, {
+    this.scoreText = this.add.text(10, 12, `Очки: ${this.snake?.score}`, {
       fontSize: "25px",
     });
 

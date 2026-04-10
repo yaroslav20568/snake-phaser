@@ -87,7 +87,7 @@ export class StartScene extends Scene {
       })
       .setOrigin(0.5);
 
-    new Button(this, this.centerX, this.centerY + 350, "Начать игру", () => {
+    new Button(this, this.centerX, this.centerY + 350, "Начать Игру", () => {
       this.scene.start("GameScene");
     });
   }
