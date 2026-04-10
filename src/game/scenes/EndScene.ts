@@ -30,21 +30,26 @@ export class EndScene extends Scene {
 
   private createUI() {
     this.add
-      .text(this.centerX, this.centerY - 200, "Конец Игры", {
+      .text(this.centerX, this.centerY - 150, "Конец Игры", {
         fontSize: "70px",
       })
       .setOrigin(0.5);
 
     this.add
-      .text(this.centerX, this.centerY - 100, `Очки: ${this.score}`, {
-        fontSize: "40px",
-      })
+      .text(
+        this.centerX,
+        this.centerY - 50,
+        `Очки: ${this.score} / Рекорд: ${localStorage.getItem("@score")}`,
+        {
+          fontSize: "40px",
+        },
+      )
       .setOrigin(0.5);
 
     new Button(
       this,
       this.centerX,
-      this.centerY + 200,
+      this.centerY + 150,
       "Попробовать Ещё",
       () => {
         this.scene.start("GameScene");
