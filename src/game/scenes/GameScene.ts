@@ -18,6 +18,7 @@ export class GameScene extends Scene {
     this.load.image(ENameImage.SNAKE_HEAD, assets.SNAKE_HEAD);
     this.load.image(ENameImage.APPLE_RED, assets.APPLE_RED);
     this.load.image(ENameImage.APPLE_GREEN, assets.APPLE_GREEN);
+    this.load.image(ENameImage.WALL_BLOCK, assets.WALL_BLOCK);
   }
 
   create() {
@@ -41,6 +42,7 @@ export class GameScene extends Scene {
 
     this.renderTopBar();
     this.renderHealthIndicator();
+    this.renderWalls();
 
     EventBus.emit("current-scene-ready", this);
   }
@@ -118,6 +120,32 @@ export class GameScene extends Scene {
       .setDisplaySize(30, 30);
 
     this.healthIndicator.add(health);
+  }
+
+  private renderWalls() {
+    const { width, height } = this.scale;
+    const walls = this.physics.add.staticGroup();
+    const tileSize = 40;
+
+    for (let x = tileSize / 2; x < width; x += tileSize) {
+      walls
+        .create(x, tileSize / 2 + 50, ENameImage.WALL_BLOCK)
+        .setDisplaySize(tileSize, tileSize);
+
+      walls
+        .create(x, height - tileSize / 2, ENameImage.WALL_BLOCK)
+        .setDisplaySize(tileSize, tileSize);
+    }
+
+    for (let y = tileSize / 2; y < height - 100; y += tileSize) {
+      walls
+        .create(tileSize / 2, y + 86, ENameImage.WALL_BLOCK)
+        .setDisplaySize(tileSize, tileSize);
+
+      walls
+        .create(width - tileSize / 2, y + 86, ENameImage.WALL_BLOCK)
+        .setDisplaySize(tileSize, tileSize);
+    }
   }
 
   private addHealthInIndicator() {
