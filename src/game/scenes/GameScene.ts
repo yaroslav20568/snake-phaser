@@ -46,7 +46,7 @@ export class GameScene extends Scene {
       this.snake,
       this.walls,
       () => {
-        this.navigateToEndScene();
+        this.endGame();
       },
       undefined,
       this,
@@ -62,14 +62,28 @@ export class GameScene extends Scene {
     this.snake?.update();
 
     if (this.snake?.health === -1) {
-      this.navigateToEndScene();
+      this.endGame();
     }
   }
 
   private collectApple(apple: Apple) {
     if (apple.variant === "negative") {
       this.snake?.updateSnakeData("dec");
-      this.healthIndicator.last?.destroy();
+
+      const lastHeart = this.healthIndicator.last;
+
+      if (lastHeart) {
+        this.tweens.add({
+          targets: lastHeart,
+          displayWidth: 0,
+          displayHeight: 0,
+          duration: 300,
+          ease: "Back.easeOut",
+          onComplete: () => {
+            lastHeart.destroy();
+          },
+        });
+      }
     } else {
       this.snake?.updateSnakeData("inc");
 
@@ -164,20 +178,26 @@ export class GameScene extends Scene {
   }
 
   private addHealthInIndicator() {
-    const lastHealth = this.healthIndicator.list.at(
-      -1,
-    ) as GameObjects.Container;
+    const lastHealth = this.healthIndicator.list.at(-1) as GameObjects.Image;
 
-    const newX = lastHealth ? lastHealth.x - 30 : -30;
+    const newX = lastHealth ? lastHealth.x - 40 : 0;
 
     const health = this.add
       .image(newX, 0, ENameImage.SNAKE_BLOB)
-      .setDisplaySize(30, 30);
+      .setDisplaySize(0, 0);
 
     this.healthIndicator.add(health);
+
+    this.tweens.add({
+      targets: health,
+      displayWidth: 30,
+      displayHeight: 30,
+      duration: 300,
+      ease: "Back.easeOut",
+    });
   }
 
-  private navigateToEndScene() {
+  private endGame() {
     this.scene.start("EndScene", { score: this.snake?.score });
   }
 }
