@@ -33,7 +33,7 @@ export class StartScene extends Scene {
   private createSnakePreview() {
     const blobSize = [100, 100] as const;
 
-    const snakeContainer = this.add.container(0, this.centerY);
+    const snakeContainer = this.add.container(0, this.centerY - 100);
     const snakeHead = this.add
       .image(this.centerX, 0, ENameImage.SNAKE_HEAD)
       .setDisplaySize(300, 300);
@@ -77,9 +77,20 @@ export class StartScene extends Scene {
 
   private createUI() {
     this.add
-      .text(this.centerX, this.centerY + 230, "Змейка", {
+      .text(this.centerX, this.centerY + 130, "Змейка", {
         fontSize: "70px",
       })
+      .setOrigin(0.5);
+
+    this.add
+      .text(
+        this.centerX,
+        this.centerY + 200,
+        "Управление: ← ↑ ↓ →",
+        {
+          fontSize: "40px",
+        },
+      )
       .setOrigin(0.5);
 
     new Button(this, this.centerX, this.centerY + 350, "Начать Игру", () => {

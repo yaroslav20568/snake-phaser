@@ -181,10 +181,10 @@ export class GameScene extends Scene {
   }
 
   private endGame() {
-    this.scene.start("EndScene", { score: this.snake?.score });
-
     const bestScore = +(localStorage.getItem("@score") ?? 0);
     const currentScore = this.snake?.score ?? 0;
+
+    this.scene.start("EndScene", { score: this.snake?.score, bestScore });
 
     if (currentScore > bestScore) {
       localStorage.setItem("@score", String(this.snake?.score));
