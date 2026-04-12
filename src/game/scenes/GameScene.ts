@@ -32,26 +32,7 @@ export class GameScene extends Scene {
 
     this.snake = new SnakePlayer(this, width / 2, height / 2);
 
-    this.physics.add.overlap(
-      this.snake,
-      this.apples,
-      (_, apple) => {
-        this.collectApple(apple as Apple);
-      },
-      undefined,
-      this,
-    );
-
-    this.physics.add.overlap(
-      this.snake,
-      this.walls,
-      () => {
-        this.endGame();
-      },
-      undefined,
-      this,
-    );
-
+    this.setupPhysics();
     this.renderTopBar();
     this.renderHealthIndicator();
 
@@ -207,6 +188,30 @@ export class GameScene extends Scene {
 
     if (currentScore > bestScore) {
       localStorage.setItem("@score", String(this.snake?.score));
+    }
+  }
+
+  private setupPhysics() {
+    if (this.snake) {
+      this.physics.add.overlap(
+        this.snake,
+        this.apples,
+        (_, apple) => {
+          this.collectApple(apple as Apple);
+        },
+        undefined,
+        this,
+      );
+
+      this.physics.add.overlap(
+        this.snake,
+        this.walls,
+        () => {
+          this.endGame();
+        },
+        undefined,
+        this,
+      );
     }
   }
 }

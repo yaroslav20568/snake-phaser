@@ -16,22 +16,22 @@ export class SnakePlayer extends GameObjects.Container {
     this.cursors = scene.input.keyboard?.createCursorKeys();
 
     const snakeContainer = scene.add.container(0, 0);
-    const snakeHead = scene.add.image(0, 0, ENameImage.SNAKE_HEAD);
+    const snakeHead = scene.add
+      .image(0, 0, ENameImage.SNAKE_HEAD)
+      .setDisplaySize(50, 50)
+      .setOrigin(0.5);
 
     this.tailContainer = scene.add.container(0, 0);
 
-    snakeHead.setDisplaySize(50, 50);
-    snakeHead.setOrigin(0.5);
     snakeContainer.add([this.tailContainer, snakeHead]);
 
     this.add(snakeContainer);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    const body = this.body as Phaser.Physics.Arcade.Body;
-
-    body.setSize(50, 50);
-    body.setOffset(-25, -25);
+    (this.body as Phaser.Physics.Arcade.Body)
+      .setSize(50, 50)
+      .setOffset(-25, -25);
   }
 
   update() {
@@ -100,9 +100,9 @@ export class SnakePlayer extends GameObjects.Container {
     const lastSegment = this.tailContainer.list.at(-1) as GameObjects.Image;
 
     const newX = lastSegment ? lastSegment.x - 20 : -30;
-    const newBlob = this.scene.add.image(newX, 0, ENameImage.SNAKE_BLOB);
-
-    newBlob.setDisplaySize(20, 20);
+    const newBlob = this.scene.add
+      .image(newX, 0, ENameImage.SNAKE_BLOB)
+      .setDisplaySize(20, 20);
 
     this.tailContainer.add(newBlob);
   }

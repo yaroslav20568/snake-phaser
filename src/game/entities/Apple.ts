@@ -18,21 +18,21 @@ export class Apple extends GameObjects.Container {
 
     this.variant = variant;
 
-    const apple = scene.add.image(
-      0,
-      0,
-      variant === "negative" ? ENameImage.APPLE_RED : ENameImage.APPLE_GREEN,
-    );
-    apple.setDisplaySize(30, 30);
+    const apple = scene.add
+      .image(
+        0,
+        0,
+        variant === "negative" ? ENameImage.APPLE_RED : ENameImage.APPLE_GREEN,
+      )
+      .setDisplaySize(30, 30);
 
     this.add(apple);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    const body = this.body as Phaser.Physics.Arcade.Body;
-
-    body.setSize(30, 30);
-    body.setOffset(-15, -15);
+    (this.body as Phaser.Physics.Arcade.Body)
+      .setSize(30, 30)
+      .setOffset(-15, -15);
 
     scene.add.tween({
       targets: apple,

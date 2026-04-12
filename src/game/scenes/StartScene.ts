@@ -34,21 +34,16 @@ export class StartScene extends Scene {
     const blobSize = [100, 100] as const;
 
     const snakeContainer = this.add.container(0, this.centerY);
-    const snakeHead = this.add.image(this.centerX, 0, ENameImage.SNAKE_HEAD);
-    const snakeSecondBlob = this.add.image(
-      this.centerX - 10,
-      -280,
-      ENameImage.SNAKE_BLOB,
-    );
-    const snakeFirstBlob = this.add.image(
-      this.centerX + 10,
-      -190,
-      ENameImage.SNAKE_BLOB,
-    );
+    const snakeHead = this.add
+      .image(this.centerX, 0, ENameImage.SNAKE_HEAD)
+      .setDisplaySize(300, 300);
+    const snakeSecondBlob = this.add
+      .image(this.centerX - 10, -280, ENameImage.SNAKE_BLOB)
+      .setDisplaySize(blobSize[0], blobSize[1]);
+    const snakeFirstBlob = this.add
+      .image(this.centerX + 10, -190, ENameImage.SNAKE_BLOB)
+      .setDisplaySize(blobSize[0], blobSize[1]);
 
-    snakeHead.setDisplaySize(300, 300);
-    snakeSecondBlob.setDisplaySize(blobSize[0], blobSize[1]);
-    snakeFirstBlob.setDisplaySize(blobSize[0], blobSize[1]);
     snakeContainer.add([snakeSecondBlob, snakeFirstBlob, snakeHead]);
 
     this.time.addEvent({
