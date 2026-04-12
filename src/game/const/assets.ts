@@ -1,4 +1,4 @@
-const urlToAssets = "/public/assets/";
+const urlToAssets = "/assets/";
 
 export enum ENameImage {
   "SNAKE_HEAD" = "SNAKE_HEAD",
