@@ -7,8 +7,12 @@ type TVariant = "negative" | "positive";
 export class Apple extends GameObjects.Container {
   variant: TVariant = "negative";
 
-  constructor(scene: Scene, variant: TVariant) {
-    const { x, y } = Apple.getRandomCoords(scene);
+  constructor(
+    scene: Scene,
+    variant: TVariant,
+    existingApples: Phaser.Physics.Arcade.Group,
+  ) {
+    const { x, y } = Apple.getRandomCoords(scene, existingApples);
 
     super(scene, x, y);
 
@@ -40,13 +44,34 @@ export class Apple extends GameObjects.Container {
     });
   }
 
-  private static getRandomCoords(scene: Scene) {
+  private static getRandomCoords(
+    scene: Scene,
+    existingApples: Phaser.Physics.Arcade.Group,
+  ) {
     const { width, height } = scene.scale;
     const padding = 100;
+    const minDistance = 50;
+    const coords = { x: 0, y: 0 };
+    let isTooClose = true;
 
-    const x = Phaser.Math.Between(padding, width - padding);
-    const y = Phaser.Math.Between(padding, height - padding);
+    while (isTooClose) {
+      coords.x = Phaser.Math.Between(padding, width - padding);
+      coords.y = Phaser.Math.Between(padding, height - padding);
 
-    return { x, y };
+      const apples = existingApples.getChildren() as Apple[];
+
+      isTooClose = apples.some((apple) => {
+        const dist = Phaser.Math.Distance.Between(
+          coords.x,
+          coords.y,
+          apple.x,
+          apple.y,
+        );
+
+        return dist < minDistance;
+      });
+    }
+
+    return coords;
   }
 }

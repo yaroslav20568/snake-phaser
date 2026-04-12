@@ -113,8 +113,8 @@ export class GameScene extends Scene {
     this.apples.clear(true, true);
 
     for (let i = 0; i < 4; i++) {
-      const redApple = new Apple(this, "negative");
-      const greenApple = new Apple(this, "positive");
+      const redApple = new Apple(this, "negative", this.apples);
+      const greenApple = new Apple(this, "positive", this.apples);
 
       this.apples.add(redApple);
       this.apples.add(greenApple);
