@@ -19,7 +19,7 @@ const phasermsg = () => {
 };
 
 export default defineConfig({
-  base: "./",
+  base: "/snake-phaser/",
   resolve: {
     alias: {
       "@": path.resolve(process.cwd(), "./src"),
