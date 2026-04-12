@@ -12,6 +12,8 @@ Snake — классическая игровая аркада, реализов
 
 ## Демонстрация
 
+[Ссылка на игру](https://yaroslav20568.github.io/snake-phaser/)
+
 ![Демонстрация работы](video/demo.gif)
 
 # Snake
@@ -27,5 +29,7 @@ Snake — classic arcade game, implemented in a web interface, where the player 
 * **Animations:** Tween.js (built into Phaser) for animations.
 
 ## Demo
+
+[Game link](https://yaroslav20568.github.io/snake-phaser/)
 
 ![Demo](video/demo.gif)
